@@ -1,34 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+import './index.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+function App(){
+  const [toggleText, setToggleText] = useState({
+    title: "Change the header here!",
+    paragraph: "Change the paragraph here!"
+  })
+  const [value, setValue] = useState(0)
+  const [color, setColor] = useState(false)
+
+  function handleChange(e){
+    setToggleText(prevText => {
+      const {name, value} = e.target
+      return {
+        ...prevText,
+        [name]: value
+      }
+    })
+  }
+
+  function increment(){
+    setValue(prevValue => prevValue + 1)
+  }
+
+  function toggleColor(){
+    setColor(prevColor => !prevColor)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="body">
+      <div className="container">
+        <div className="text-container">
+          <h1>{toggleText.title}</h1>
+          <p>{toggleText.paragraph}</p>
+        </div>
+
+        <input
+          type="text" 
+          name="title" 
+          id=""
+          onChange={handleChange}
+          value={toggleText.title}
+        />
+        <br />
+        <input
+          type="text" 
+          name="paragraph" 
+          id=""
+          onChange={handleChange}
+          value={toggleText.paragraph}
+        />
+        <br />
+        <button type="button" onClick={increment}><b>Click to increment: {value}</b></button>
+        <button className="box" onClick={toggleColor} style={{backgroundColor: color ? "black" : "white"}}></button>
+        <p>You can toggle the color by clicking the box above</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
+
   )
 }
 
